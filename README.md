@@ -26,3 +26,76 @@ These two session keys (`NwkSKey` and `AppSKey`) are unique per device, per sess
 The network session key (`NwkSKey`) is used for interaction between the Node and the Network. This key is used to check the validity of messages (MIC check).
 
 The application session key (`AppSKey`) is used for encryption and decryption of the payload. The payload is fully encrypted between the Node and the Handler component of The Things Network (which you will be able to run on your own server). This means that nobody except you is able to read the contents of messages you send or receive.
+
+
+### Edit Payload Format
+Instead of transmitting our sensor values every measurement, we cumulate the data and transmit it when our buffer is full. In this way, we will optimise the power consumption of our IoT node.
+
+We need to distinguish between different sensor measurements. This can be done through the application port. This field in the LoRaWAN packet is used by the MAC layer to _XXXXXXXXXXXXXXXXXXXX_. The values 0 to 255 can be freely used. Hence, we will make use of the app port to determine which type of data the packet carries.
+
+In our application the following structure is used:
+
+| App Port | Sensor Type | Payload Type | Bytes per Measurement |
+|:--------:|:-----------:|:------------:|:---------------------:|
+|     1    | temperature | Array        | 2                     |
+|          |             |              |                       |
+|          |             |              |                       |
+
+
+Thus, the payload first needs to be decoded before it can be stored in our database. This can be done by using the build-in `Payload Formats` function in your application. We will decode our own `custom` payload format.
+
+The following code will act as the decoder:
+```javascript
+function Decoder(bytes, port) {
+  // make an empty decoded object
+  // after decoding the bytes received from the device
+  // this object will contain a payload and a type (i.e. sensor type)
+  var decoded = {};
+
+  switch(port){
+    case 1 :
+      // if the app port is 1 we expect to receive an array of temperature data
+      decoded.payload = toSignedShortArray(bytes);
+      decoded.type = "temp";
+      break;
+    case 2:
+      break;
+  }
+
+  return decoded;
+}
+
+function toSignedShortArray(bytes){
+  var data_size = 2; // bytes per measurement, in our case 2 bytes is one measurement
+  var num_byte_el = bytes.length;
+  var num_readings = parseInt(num_byte_el/data_size);
+  var readings = [];
+  var offset = 0;
+
+  for(var reading_id = 0; reading_id<num_readings; reading_id++){
+    var value = ( ( (bytes[reading_id+offset] << 8) | bytes[reading_id+offset+1]) << 16) >> 16;
+    readings.push(value);
+    offset += data_size-1;
+  }
+
+
+  return readings;
+
+}
+```
+
+So now we have ensured our data coming from our devices are stored in a database. We also made sure our device data was first decoded based on the payload format described above. We can finally begin with developing our IoT node!
+
+
+## Developing our IoT Node
+
+Some HW description + beweegredenen.
+
+### Commissioning the Device
+
+
+### Making it low power
+
+#### Accumulate Sensor Data
+#### Hardware Encryption vs Software Encryption
+#### Go To Sleep
