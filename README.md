@@ -3,6 +3,8 @@
 ## Registering to the TTN
 The Things Network is a global, open and crowd-sourced Internet of things data network. Wireless communication is provided by the LoRaWAN technology. In this tutorial we will use the existing network provided by TTN users.
 
+![The Things Network network](https://www.thethingsnetwork.org/wiki/uploads/TTN-Overview.jpg)
+
 https://account.thethingsnetwork.org/register
 
 After registering, you can begin creating your own application.
