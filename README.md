@@ -97,6 +97,9 @@ function toSignedShortArray(bytes){
 
 So now we have ensured our data coming from our devices are stored in a database. We also made sure our device data was first decoded based on the payload format described above. We can finally begin with developing our IoT node!
 
+## Registering Data to our Dashboard
+Register [here](low-power-login.herokuapp.com)
+
 
 ## Developing our IoT Node
 
