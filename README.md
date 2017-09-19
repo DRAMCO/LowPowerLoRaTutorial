@@ -85,7 +85,9 @@ function toSignedShortArray(bytes){
 
   for(var reading_id = 0; reading_id<num_readings; reading_id++){
     var value = ( ( (bytes[reading_id+offset] << 8) | bytes[reading_id+offset+1]) << 16) >> 16;
-    readings.push(value);
+    // value form DB is stored as value = original_value * 1000
+    // so the double original value is value/1000
+    readings.push(value/1000);
     offset += data_size-1;
   }
 
