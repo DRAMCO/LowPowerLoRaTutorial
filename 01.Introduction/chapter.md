@@ -21,9 +21,19 @@ Liesbet Van der Perre received the M.Sc. and PhD degree in Electrical Engineerin
 <hr style="clear: both; margin: 50px 0px 30px 0px; border: 0px;"/>
 <img style="float: left; width: 150px; margin: 0px 30px 15px 0px;" src="/tutorials/low-power-lora/user/pages/images/gilles.jpg">
 ##### Gilles Callebaut
-Gilles graduated summa cum laude in 2016 and received the M.Sc. degree in engineering technology at KU Leuven campus Gent, Belgium. He is currently a member of Dramco, a research group which is focused on wireless and mobile communication systems. 
+Gilles graduated in 2016 and received the M.Sc. degree in engineering technology at KU Leuven, Belgium. He is currently a member of Dramco, a research group which is focused on wireless and mobile communication systems. 
 
 <hr style="clear: both; margin: 50px 0px 30px 0px; border: 0px;"/>
 <img style="float: left; width: 150px; margin: 0px 30px 15px 0px;" src="/tutorials/low-power-lora/user/pages/images/geof.jpg">
 ##### Geoffrey Ottoy
-Dr. Geoffrey Ottoy also contributed to the realization of the demonstration.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque mi lectus, mattis sed lacus sed, posuere euismod lectus. Pellentesque cursus dui tortor, nec malesuada libero aliquet vel. 
+
+<hr style="clear: both; margin: 50px 0px 30px 0px; border: 0px;"/>
+<img style="float: left; width: 150px; margin: 0px 30px 15px 0px;" src="/tutorials/low-power-lora/user/pages/images/bart.jpg">
+##### Bart Thoen
+Mauris sed volutpat nunc. Praesent ipsum leo, facilisis in risus in, sollicitudin elementum ex. In quis est purus. Morbi neque elit, scelerisque eget hendrerit non, maximus vitae leo. Interdum et malesuad. 
+
+<hr style="clear: both; margin: 50px 0px 30px 0px; border: 0px;"/>
+<img style="float: left; width: 150px; margin: 0px 30px 15px 0px;" src="/tutorials/low-power-lora/user/pages/images/guus.jpg">
+##### Guus Leenders
+Sed euismod venenatis nibh vulputate scelerisque. Donec tempus venenatis ultrices. Suspendisse imperdiet dignissim arcu, sed iaculis elit fringilla id. Ut lacinia mi sit amet nulla consequat porttitor.  
