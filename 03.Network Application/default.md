@@ -39,7 +39,8 @@ In our application the following structure is used:
 |:--------:|:-----------:|:------------:|:----------------------------------:|
 |     1    | temperature | Array        | 2                   			     |
 |     2    |  humidity   | Array        | 2                   			     |
-|     3    |  mixed\*     | Array       | N.A.                			     |
+|     3    |  Text       | Array        | N.A.                			     |
+|     4    |  mixed\*    | Array        | N.A.                			     |
 
 \* When the server receives a _mixed_ package, the payload will consist out of different sensors typed values.
 To determine the meaning of the bytes in the payload we need to decode it apprioraty. We payload is structured as follows:
@@ -71,12 +72,14 @@ function Decoder(bytes, port) {
       // humidity data
       decoded.humidity = bytesToArray(bytes);
       break;
-    case 3:
+      case 3:
+        decoded.text= bin2string(bytes);
+        break;
+    case 4:
       // mixed data
       // first byte == number of temp values
       var startTemp = 0;
       var numTempValues = parseInt(bytes[startTemp]);
-      console.log(numTempValues);
       if(numTempValues!==0){
         var tempBytes = bytes.slice(startTemp+1,startTemp+1+numTempValues);
       decoded.temperature = bytesToArray(tempBytes);
@@ -85,7 +88,6 @@ function Decoder(bytes, port) {
       // same for humidity
       var startHumidity = 1+numTempValues;
       var numHumidityValues = parseInt(bytes[startHumidity]);
-      console.log(numHumidityValues);
       if(numHumidityValues!==0){
         var humidityBytes = bytes.slice(1+startHumidity,startHumidity+1+numHumidityValues);
       decoded.humidity = bytesToArray(humidityBytes);
@@ -117,6 +119,75 @@ function bytesToArray(bytes){
   return readings;
   
 }
+
+function bin2string(array){
+	var result = "";
+	for(var i = 0; i < array.length; ++i){
+		result+= (String.fromCharCode(array[i]));
+	}
+	return result;
+}
 ```
 
 So now we have ensured our data coming from our devices are stored in a database. We also made sure our device data was first decoded based on the payload format described above. We can finally begin with developing our IoT node!
+
+
+# Low Power Tweet
+A common use case is to invoke an HTTP request to an external web service. for this workshop we are going to process the sensor data and send it to [IFTTT](https://ifttt.com) (If This Then That) to trigger an event of your own choice. 
+
+! IFTTT is a free web-based service that you can use to create simple conditional statements, called applets.
+! An applet is triggered by changes that occur within other web services such as Gmail, Facebook, Instagram, or The Things Network.
+
+## Create the IFTTT Applet
+Let's start on IFTTT.
+
+!! The IFTTT for this example is already made.
+!! However, the instructions for creating and connecting the IFTTT is discussed below.
+
+1.  Go to [IFTTT](https://ifttt.com) and create an account or login.
+2.  Select [New Applet](https://ifttt.com/create) from your account menu.
+3.  Click **This** to Choose Trigger Channel.
+
+    1.  Search for `maker`.
+    2.  Click the **Webhooks** channel.
+
+    The first time you'll need to click **Connect**, then **Done** in the popup that opens and finally **Continue to the next step**.
+    
+4.  Click **Receive a web request**.
+
+    *  Enter the **Event Name**:  `tutorial_button_pressed`.
+    
+5.  Click **That** to configure an action, i.e. post a tweet on Twitter.
+
+    Use the field `Value1` as ingredient. For example, in our case a tweet could be:
+    
+    ```
+    {{Value1}} #DRAMCO #LowPowerIoT
+    ```
+
+7.  Click **Create action**.
+8.  Click **Finish**. 
+    Good job! You created the Applet on IFTTT. The only thing you have to do now it connect The Things Network to your Applet and trigger the event with the sensor data.
+    
+
+## Connect The Things Network to IFTTT
+
+1.  Go back to your application in the [Console](https://console.thethingsnetwork.org/applications) and click on **Integrations**.
+
+    ![integrations](img/integrations.png)
+
+2. Add as a new integration the **IFTTT Maker**.
+
+    ![IFTTT_maker](img/IFTTT_maker.png)
+
+3.  Think of a fancy Process ID, like `low-power-tweet` and fill in the **Event Name** (i.e. `tutorial_button_pressed`) you just created on IFTTT.
+4.  To find your secret **Key**, go to [ifttt.com/maker and then **Settings**](https://ifttt.com/services/maker_webhooks/settings). Your key is the last part of the URL (after `/use/`). In our case, the **Key** is `cKUySRZC0RYDT350rpi3-m-CRwWJZ70so_k6DLoo_js`
+5.  As **Value 1** write `text`
+	*Make sure you don't accidentally add a space before or after `text`*
+6.  Click on **Add Integration** to finalize the integration.
+
+To summarise:
+- Process ID: choose a 'random' ID
+- Event Name: `tutorial_button_pressed`
+- Key: `cKUySRZC0RYDT350rpi3-m-CRwWJZ70so_k6DLoo_js`
+- Value 1: `text`
