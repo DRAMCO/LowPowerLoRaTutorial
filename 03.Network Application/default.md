@@ -37,9 +37,9 @@ In our application the following structure is used:
 
 | App Port | Sensor Type | Payload Type | Bytes per Measurement (`numBytes`) |
 |:--------:|:-----------:|:------------:|:----------------------------------:|
-|     1    | temperature | Array        | 2                   			     |
-|     2    |  humidity   | Array        | 2                   			     |
-|     3    |  Text       | Array        | N.A.                			     |
+|     1    | temperature | Array (unsigned int)       | 2                   			     |
+|     2    |  humidity   | Array (unsigned int)      | 2                   			     |
+|     3    |  Text       | Array (ASCII)      | N.A.                			     |
 |     4    |  mixed\*    | Array        | N.A.                			     |
 
 \* When the server receives a _mixed_ package, the payload will consist out of different sensors typed values.
@@ -148,8 +148,7 @@ Let's start on IFTTT.
 2.  Select [New Applet](https://ifttt.com/create) from your account menu.
 3.  Click **This** to Choose Trigger Channel.
 
-    1.  Search for `maker`.
-    2.  Click the **Webhooks** channel.
+    * Search for the **Webhooks** channel.
 
     The first time you'll need to click **Connect**, then **Done** in the popup that opens and finally **Continue to the next step**.
     
@@ -173,13 +172,7 @@ Let's start on IFTTT.
 ## Connect The Things Network to IFTTT
 
 1.  Go back to your application in the [Console](https://console.thethingsnetwork.org/applications) and click on **Integrations**.
-
-    ![integrations](img/integrations.png)
-
 2. Add as a new integration the **IFTTT Maker**.
-
-    ![IFTTT_maker](img/IFTTT_maker.png)
-
 3.  Think of a fancy Process ID, like `low-power-tweet` and fill in the **Event Name** (i.e. `tutorial_button_pressed`) you just created on IFTTT.
 4.  To find your secret **Key**, go to [ifttt.com/maker and then **Settings**](https://ifttt.com/services/maker_webhooks/settings). Your key is the last part of the URL (after `/use/`). In our case, the **Key** is `cKUySRZC0RYDT350rpi3-m-CRwWJZ70so_k6DLoo_js`
 5.  As **Value 1** write `text`
